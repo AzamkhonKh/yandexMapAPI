@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::group(['middleware' => 'auth:api' , 'prefix' => '/map'],function (){
+    Route::get('/places','PlacesController@getPlaces');
+    Route::post('/place/add','PlacesController@addPlace');
+    Route::post('/place/delete/{id}','PlacesController@deletePlace');
+    Route::post('/place/edit/{id}','PlacesController@editPlace');
+});

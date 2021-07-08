@@ -1,23 +1,41 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-4">
+                <Places places="{{places}}"></Places>
+            </div>
+            <div class="col-md-8" v-if="status">
                 <div class="card">
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        {{ message }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
 <script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
+import Places from './Places'
+
+export default {
+    components: {Places},
+    props: ['message', 'status'],
+    data: function () {
+        return {
+            places: [],
         }
+    },
+    mounted() {
+        console.log('Component mounted.')
+    },
+    getPlaces() {
+        axios.get('/api/places').then(response => {
+            this.places = response.data;
+        }).catch(error => {
+            console.log(error);
+        })
     }
+}
 </script>
